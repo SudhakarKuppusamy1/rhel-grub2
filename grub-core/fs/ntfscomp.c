@@ -228,7 +228,7 @@ read_block (struct grub_ntfs_rlst *ctx, grub_uint8_t *buf, grub_size_t num)
 		  grub_memset (buf, 0, nn * GRUB_NTFS_COM_LEN);
 		  buf += nn * GRUB_NTFS_COM_LEN;
 		  if (grub_file_progress_hook && ctx->file)
-		    grub_file_progress_hook (0, 0, nn * GRUB_NTFS_COM_LEN,
+		    grub_file_progress_hook (0, 0, nn * GRUB_NTFS_COM_LEN, NULL,
 					     ctx->file);
 		}
 	    }
@@ -241,7 +241,7 @@ read_block (struct grub_ntfs_rlst *ctx, grub_uint8_t *buf, grub_size_t num)
 		  if (buf)
 		    buf += GRUB_NTFS_COM_LEN;
 		  if (grub_file_progress_hook && ctx->file)
-		    grub_file_progress_hook (0, 0, GRUB_NTFS_COM_LEN,
+		    grub_file_progress_hook (0, 0, GRUB_NTFS_COM_LEN, NULL,
 					     ctx->file);
 		  nn--;
 		}
@@ -272,7 +272,7 @@ read_block (struct grub_ntfs_rlst *ctx, grub_uint8_t *buf, grub_size_t num)
 		  if (grub_file_progress_hook && ctx->file)
 		    grub_file_progress_hook (0, 0,
 					     tt << (ctx->comp.log_spc
-						    + GRUB_NTFS_BLK_SHR),
+						    + GRUB_NTFS_BLK_SHR), NULL,
 					     ctx->file);
 		  buf += tt << (ctx->comp.log_spc + GRUB_NTFS_BLK_SHR);
 		}
@@ -295,7 +295,7 @@ read_block (struct grub_ntfs_rlst *ctx, grub_uint8_t *buf, grub_size_t num)
 		  if (grub_file_progress_hook && ctx->file)
 		    grub_file_progress_hook (0, 0,
 					     nn << (ctx->comp.log_spc
-						    + GRUB_NTFS_BLK_SHR),
+						    + GRUB_NTFS_BLK_SHR), NULL,
 					     ctx->file);
 		}
 	      ctx->target_vcn += nn;
@@ -325,7 +325,7 @@ ntfscomp (grub_uint8_t *dest, grub_disk_addr_t ofs,
 
 	  grub_memcpy (dest, ctx->attr->sbuf + ofs - ctx->attr->save_pos, n);
 	  if (grub_file_progress_hook && ctx->file)
-	    grub_file_progress_hook (0, 0, n, ctx->file);
+	    grub_file_progress_hook (0, 0, n, NULL, ctx->file);
 	  if (n == len)
 	    return 0;
 
@@ -397,7 +397,7 @@ ntfscomp (grub_uint8_t *dest, grub_disk_addr_t ofs,
 	n = len;
       grub_memcpy (dest, &ctx->attr->sbuf[o], n);
       if (grub_file_progress_hook && ctx->file)
-	grub_file_progress_hook (0, 0, n, ctx->file);
+	grub_file_progress_hook (0, 0, n, NULL, ctx->file);
       if (n == len)
 	goto quit;
       dest += n;
@@ -429,7 +429,7 @@ ntfscomp (grub_uint8_t *dest, grub_disk_addr_t ofs,
 
       grub_memcpy (dest, ctx->attr->sbuf, len);
       if (grub_file_progress_hook && file)
-	grub_file_progress_hook (0, 0, len, file);
+	grub_file_progress_hook (0, 0, len, NULL, file);
     }
 
 quit:
