@@ -1006,6 +1006,8 @@ module = {
   common = commands/appendedsig/asn1util.c;
   common = commands/appendedsig/gnutls_asn1_tab.c;
   common = commands/appendedsig/pkix_asn1_tab.c;
+  enable = emu;
+  enable = powerpc_ieee1275;
   cflags = '$(CFLAGS_POSIX)';
   cppflags = '-I$(srcdir)/lib/posix_wrap';
 };
@@ -2193,6 +2195,8 @@ module = {
   name = appended_signature_test;
   common = tests/appended_signature_test.c;
   common = tests/appended_signatures.h;
+  enable = emu;
+  enable = powerpc_ieee1275;
 };
 
 module = {

@@ -25,18 +25,25 @@
 #define GRUB_IEEE1275_CELL_SIZEOF 4
 typedef grub_uint32_t grub_ieee1275_cell_t;
 
-int EXPORT_FUNC (grub_ieee1275_test) (const char *name,
-                                      grub_ieee1275_cell_t *missing);
+#define PRIxGRUB_IEEE1275_CELL_T	PRIxGRUB_UINT32_T
+#define PRIuGRUB_IEEE1275_CELL_T	PRIuGRUB_UINT32_T
 
-int grub_ieee1275_pks_max_object_size (grub_size_t *result);
+#ifdef __powerpc__
+extern grub_int32_t
+grub_ieee1275_test (const char *name);
 
-int grub_ieee1275_pks_read_object (grub_uint8_t consumer, grub_uint8_t *label,
-                                   grub_size_t label_len, grub_uint8_t *buffer,
-                                   grub_size_t buffer_len, grub_size_t *data_len,
-                                   grub_uint32_t *policies);
+extern grub_int32_t
+grub_ieee1275_pks_max_object_size (grub_uint32_t *result);
 
-int grub_ieee1275_pks_read_sbvar (grub_uint8_t sbvarflags, grub_uint8_t sbvartype,
-                                  grub_uint8_t *buffer, grub_size_t buffer_len,
-                                  grub_size_t *data_len);
+extern grub_int32_t
+grub_ieee1275_pks_read_object (const grub_uint32_t consumer, const char *label,
+                               const grub_uint32_t label_len, const grub_uint32_t buffer_len,
+                               grub_uint8_t *buffer, grub_uint32_t *data_len,
+                               grub_uint32_t *policies);
 
+extern grub_int32_t
+grub_ieee1275_pks_read_sbvar (const grub_uint32_t sbvar_flags, const grub_uint32_t sbvar_type,
+                              const grub_uint32_t buffer_len, grub_uint8_t *buffer,
+                              grub_size_t *data_len);
+#endif /* __powerpc__ */
 #endif /* ! GRUB_IEEE1275_MACHINE_HEADER */

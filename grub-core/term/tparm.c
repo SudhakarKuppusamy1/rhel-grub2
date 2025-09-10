@@ -65,6 +65,8 @@
 
 #define UChar(c) ((unsigned char)(c))
 
+typedef char grub_bool_t;
+
 //MODULE_ID("$Id$")
 
 /*

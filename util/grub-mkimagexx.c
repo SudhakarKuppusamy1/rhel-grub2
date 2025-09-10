@@ -248,7 +248,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
   if (appsig_size)
     {
       phnum++;
-      footer_size += ALIGN_UP(sizeof (struct grub_appended_signature_note) + appsig_size, 4);
+      footer_size += ALIGN_UP(sizeof (struct grub_appended_signature_note), 4);
     }
 
   if (image_target->id != IMAGE_LOONGSON_ELF)
@@ -541,12 +541,13 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
       phdr->p_filesz = grub_host_to_target32 (note_size);
       phdr->p_memsz = 0;
       phdr->p_offset = grub_host_to_target32 (header_size + program_size + footer_offset);
+      footer += note_size;
+      footer_offset += note_size;
     }
 
   if (appsig_size) {
-    int note_size = ALIGN_UP(sizeof (struct grub_appended_signature_note) + appsig_size, 4);
-    struct grub_appended_signature_note *note_ptr = (struct grub_appended_signature_note *)
-      (elf_img + program_size + header_size + (note ? sizeof (struct grub_ieee1275_note) : 0));
+    int note_size = ALIGN_UP(sizeof (struct grub_appended_signature_note), 4);
+    struct grub_appended_signature_note *note_ptr = (struct grub_appended_signature_note *) footer;
 
     note_ptr->header.n_namesz = grub_host_to_target32 (sizeof (GRUB_APPENDED_SIGNATURE_NOTE_NAME));
     /* needs to sit at the end, so we round this up and sign some zero padding */
@@ -562,7 +563,7 @@ SUFFIX (grub_mkimage_generate_elf) (const struct grub_install_image_target_desc 
     phdr->p_paddr = 0;
     phdr->p_filesz = grub_host_to_target32 (note_size);
     phdr->p_memsz = 0;
-    phdr->p_offset = grub_host_to_target32 (header_size + program_size + (note ? sizeof (struct grub_ieee1275_note) : 0));
+    phdr->p_offset = grub_host_to_target32 (header_size + program_size + footer_offset);
   }
 
   {

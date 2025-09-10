@@ -345,14 +345,26 @@ static inline void grub_set_unaligned64 (void *ptr, grub_uint64_t val)
   dd->d = val;
 }
 
-#define GRUB_UUID_SIZE 16
-typedef struct grub_uuid grub_uuid_t;
-/* The structure of a UUID.*/
-struct grub_uuid
+struct grub_guid
 {
-  grub_uint8_t b[GRUB_UUID_SIZE];
-};
+  grub_uint32_t data1;
+  grub_uint16_t data2;
+  grub_uint16_t data3;
+  grub_uint8_t data4[8];
+} __attribute__ ((aligned(4)));
+typedef struct grub_guid grub_guid_t;
 
-typedef char grub_bool_t;
+#define GRUB_GUID_SIZE    (sizeof (grub_guid_t))
+
+struct grub_packed_guid
+{
+  grub_uint32_t data1;
+  grub_uint16_t data2;
+  grub_uint16_t data3;
+  grub_uint8_t data4[8];
+} GRUB_PACKED;
+typedef struct grub_packed_guid grub_packed_guid_t;
+
+#define GRUB_PACKED_GUID_SIZE    (sizeof (grub_packed_guid_t))
 
 #endif /* ! GRUB_TYPES_HEADER */
