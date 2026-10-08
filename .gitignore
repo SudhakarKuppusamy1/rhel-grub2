@@ -143,6 +143,7 @@ widthspec.bin
 /grub-core/rs_decoder.h
 /grub-core/symlist.c
 /grub-core/symlist.h
+/grub-core/tests/mldsa/generate_testdata.sh
 /grub-core/trigtables.c
 /grub-core/unidata.c
 /grub-editenv
